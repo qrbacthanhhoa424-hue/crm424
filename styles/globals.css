@@ -137,6 +137,7 @@ td.name-cell{white-space:normal; font-weight:600;}
 .msg{font-size:12.5px; padding:10px 12px; border-radius:8px; margin-top:14px; display:none;}
 .msg.error{display:block; background:#FFF2F2; color:var(--bad); border:1px solid #F3C6C6;}
 .msg.success{display:block; background:#E7F6EE; color:var(--good); border:1px solid #BEEAD3;}
+.msg.neutral{display:block; background:#F0F3F7; color:var(--muted); border:1px solid var(--line);}
 .months-list{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px;}
 .months-list h3{margin:0 0 14px; font-size:15px; color:var(--navy-dark);}
 .month-item{display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line);}

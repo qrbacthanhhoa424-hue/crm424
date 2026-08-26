@@ -248,11 +248,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {cdsOnly && (
-          <div className="msg success" style={{ marginTop: -6, marginBottom: 16 }}>
-            Đang chỉ tính Lead/Opp thuộc nhóm nguồn "Kênh sáng kiến CĐS KHBL" và "Kênh sáng kiến CĐS KHDN". Bấm lại nút để xem toàn bộ số liệu.
-          </div>
-        )}
+        <div className={`msg ${cdsOnly ? 'success' : 'neutral'}`} style={{ marginTop: -6, marginBottom: 16 }}>
+          {cdsOnly
+            ? 'Đang chỉ tính Lead/Opp thuộc nhóm nguồn "Kênh sáng kiến CĐS KHBL" và "Kênh sáng kiến CĐS KHDN". Bấm lại nút để xem toàn bộ số liệu.'
+            : 'Tất cả các nhóm nguồn.'}
+        </div>
 
         {loading ? (
           <div className="panel">
