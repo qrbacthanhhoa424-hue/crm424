@@ -88,7 +88,7 @@ function DataTable({ rows, kind, cdsOnly }) {
             <th>Lead/Opp <br />có tương tác</th>
             <th>Lead → Opp</th>
             <th>Opp <br />thành công</th>
-            <th>Điểm thi đua{cdsOnly ? ' (CĐS)' : ''}</th>
+            <th>Điểm thi đua</th>
           </tr>
         </thead>
         <tbody>
