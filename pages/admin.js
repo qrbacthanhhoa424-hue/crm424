@@ -204,9 +204,9 @@ export default function Admin() {
         const def = FILE_TYPES[i];
         if (files[i]) {
           const aoa = await readFileAsAOA(files[i]);
-          const w = validateAOA(def.type, aoa);
+          const w = validateAOA(def.type, aoa, monthValue);
           if (w.length) warnings.push(`File "${def.label}": ${w.join(' ')}`);
-          const partial = buildPartialFromAOA(def.type, aoa);
+          const partial = buildPartialFromAOA(def.type, aoa, monthValue);
           parts[def.type] = partial;
           changedPartials[def.type] = partial;
         } else {

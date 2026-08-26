@@ -159,6 +159,29 @@ Dự án được xây dựng bằng **Next.js**, Vercel sẽ tự động tối
   lại từ đầu.
 
 
+## Lọc "Ngày tương tác" đúng theo kỳ tháng
+
+2 file "Tiếp cận tương tác LEAD/OPP" do CRM xuất ra theo **trạng thái hiện tại**, không phải theo
+đúng khoảng ngày ghi ở tiêu đề file — nghĩa là file "kỳ tháng 8" vẫn có thể chứa những Lead/Opp có
+"Ngày tương tác" thuộc tháng 7, tháng 6 hoặc cũ hơn (do Lead/Opp đó vẫn đang mở, chưa đóng trạng
+thái). Nếu tính thẳng theo file sẽ đếm nhầm các tương tác cũ vào kỳ đang xử lý.
+
+Hệ thống giờ tự lọc: khi admin xử lý số liệu cho một tháng áp dụng cụ thể (ô "Tháng áp dụng" ở
+trang Quản trị), chỉ những dòng có cột **"Ngày tương tác"** rơi đúng vào tháng đó mới được tính
+vào "Lead/Opp có tương tác" (và số liệu CĐS đi kèm). Việc lọc diễn ra **theo từng dòng**, sau đó
+mới gộp lại theo mã Lead/Opp — nên một Lead/Opp có nhiều lần tương tác ở nhiều tháng khác nhau vẫn
+được tính đúng vào (các) kỳ có tương tác thật, không bị tính trùng hay tính nhầm kỳ.
+
+Sau khi bấm "Xử lý số liệu", nếu có dòng bị loại vì ngoài kỳ, hệ thống sẽ hiện cảnh báo dạng
+`"37/578 dòng có Ngày tương tác ngoài kỳ 2026-08 — ... sẽ KHÔNG được tính..."` — đây là điều **bình
+thường**, không phải lỗi file. Nếu file không có cột "Ngày tương tác" (định dạng file cũ/khác), hệ
+thống sẽ cảnh báo và **tạm tính toàn bộ dòng** (không lọc) để tránh vô tình đưa số liệu về 0 cho
+tất cả mọi người.
+
+> Vì đây là thay đổi CÁCH TÍNH (không chỉ thêm số liệu con), `PARTIAL_SCHEMA_VERSION` tăng lên
+> **5**. Các kỳ đã lưu trước đó cần tải lại 2 file "Tiếp cận tương tác LEAD/OPP" (tối thiểu) để áp
+> dụng cách lọc mới.
+
 ## Nút "Sáng kiến CĐS" — chỉ tính Lead/Opp thuộc nhóm nguồn sáng kiến CĐS
 
 Trên trang Bảng xếp hạng (`/`), có nút bật/tắt **"Sáng kiến CĐS"** cạnh ô tìm kiếm. Khi bật, toàn
