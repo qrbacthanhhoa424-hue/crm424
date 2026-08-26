@@ -99,6 +99,23 @@ td.name-cell{white-space:normal; font-weight:600;}
 .btn.danger:hover{background:#FFF2F2;}
 .btn:disabled{opacity:.45; cursor:not-allowed;}
 
+/* Nút gạt on/off (dùng cho "Sáng kiến CĐS" và các bộ lọc bật/tắt khác) */
+.toggle-row{display:flex; align-items:center; gap:9px;}
+.toggle-switch{
+  position:relative; width:42px; height:24px; border-radius:999px; border:none; padding:0;
+  background:#C7CFDA; cursor:pointer; transition:background .18s; flex-shrink:0;
+}
+.toggle-switch::before{
+  content:''; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%;
+  background:#fff; box-shadow:0 1px 3px rgba(18,34,56,.35); transition:transform .18s;
+}
+.toggle-switch:hover{background:#B7C1CF;}
+.toggle-switch.on{background:var(--navy);}
+.toggle-switch.on:hover{background:var(--navy-light);}
+.toggle-switch.on::before{transform:translateX(18px);}
+.toggle-switch:disabled{opacity:.45; cursor:not-allowed;}
+.toggle-label{font-size:13.5px; font-weight:700; color:var(--ink); cursor:pointer; user-select:none;}
+
 .admin-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:20px; align-items:start;}
 @media(max-width:900px){.admin-grid{grid-template-columns:1fr;}}
 .upload-panel{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px;}

@@ -222,15 +222,20 @@ export default function Home() {
           <div className="topright" style={{ marginLeft: 'auto', display: 'flex', gap: 20, alignItems: 'flex-end' }}>
             <div>
               <span className="field-label">Nguồn dữ liệu</span>
-              <button
-                type="button"
-                className={`btn ${cdsOnly ? '' : 'secondary'} cds-toggle`}
-                aria-pressed={cdsOnly}
-                title="Chỉ tính Lead/Opp thuộc Nhóm nguồn &quot;Kênh sáng kiến CĐS KHBL&quot; và &quot;Kênh sáng kiến CĐS KHDN&quot;"
-                onClick={() => setCdsOnly((v) => !v)}
-              >
-                {cdsOnly ? '✓ Sáng kiến CĐS' : 'Sáng kiến CĐS'}
-              </button>
+              <div className="toggle-row" style={{ height: 38 }}>
+                <button
+                  type="button"
+                  id="cds-toggle"
+                  className={`toggle-switch ${cdsOnly ? 'on' : ''}`}
+                  role="switch"
+                  aria-checked={cdsOnly}
+                  title="Chỉ tính Lead/Opp thuộc Nhóm nguồn &quot;Kênh sáng kiến CĐS KHBL&quot; và &quot;Kênh sáng kiến CĐS KHDN&quot;"
+                  onClick={() => setCdsOnly((v) => !v)}
+                />
+                <label htmlFor="cds-toggle" className="toggle-label">
+                  Sáng kiến CĐS
+                </label>
+              </div>
             </div>
             <div className="search-box">
               <span className="field-label">Tìm phòng / cán bộ</span>
