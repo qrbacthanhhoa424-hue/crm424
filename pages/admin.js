@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FILE_TYPES, buildPartialFromAOA, validateAOA, combinePartials, monthLabel, PARTIAL_SCHEMA_VERSION } from '../lib/aggregate';
 
 function isUsable(existing) {
-  return !!existing && existing.data?.schemaVersion === PARTIAL_SCHEMA_VERSION;
+  return !!existing && (existing.data?.schemaVersion >= 5 || existing.data?.schemaVersion === PARTIAL_SCHEMA_VERSION);
 }
 
 // Nạp thư viện xlsx (~500KB) chỉ khi admin thực sự bắt đầu xử lý file, thay vì tải sẵn ngay khi
