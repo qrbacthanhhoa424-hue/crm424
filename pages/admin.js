@@ -214,7 +214,28 @@ export default function Admin() {
         }
       }
 
-      const combined = combinePartials(parts);
+      // Tìm kỳ liền trước kỳ hiện tại để tính phát sinh Delta (nếu có)
+      const prevMonths = months.filter((m) => m.key < monthValue).sort((a, b) => a.key.localeCompare(b.key));
+      const prevMonthObj = prevMonths.length ? prevMonths[prevMonths.length - 1] : null;
+      let prevRmMap = null;
+      if (prevMonthObj) {
+        try {
+          const rPrev = await fetch(`/api/data/${encodeURIComponent(prevMonthObj.key)}`);
+          if (rPrev.ok) {
+            const resPrev = await rPrev.json();
+            if (resPrev.data?.rm) {
+              prevRmMap = {};
+              resPrev.data.rm.forEach((row) => {
+                prevRmMap[row.key] = row;
+              });
+            }
+          }
+        } catch (e) {
+          console.error('Không tải được dữ liệu kỳ trước:', e);
+        }
+      }
+
+      const combined = combinePartials(parts, prevRmMap);
       const phongMissingHeadcount = combined.phong.filter((p) => !p.soRM).length;
       if (phongMissingHeadcount > 0) {
         warnings.push(
@@ -222,15 +243,20 @@ export default function Admin() {
         );
       }
 
-      setPendingData({ ...combined, changedPartials });
+      const prevMonthLabel = prevMonthObj ? prevMonthObj.label || prevMonthObj.key : null;
+      setPendingData({ ...combined, changedPartials, prevMonthLabel });
 
-      if (warnings.length) setMsg({ type: 'error', text: warnings.join(' ') });
+      const deltaInfo = prevMonthLabel
+        ? `Đang tính số liệu phát sinh (Delta) so với kỳ trước: ${prevMonthLabel}.`
+        : 'Đây là kỳ đầu tiên có dữ liệu — số liệu được tính trực tiếp từ file tải lên.';
+
+      if (warnings.length) setMsg({ type: 'error', text: `${deltaInfo} Cảnh báo: ${warnings.join(' ')}` });
       else if (Object.keys(changedPartials).length === 0)
-        setMsg({ type: 'success', text: 'Không có file nào thay đổi so với dữ liệu đã lưu — vẫn có thể bấm Lưu để cập nhật lại điểm.' });
+        setMsg({ type: 'success', text: `${deltaInfo} Không có file nào thay đổi so với dữ liệu đã lưu — vẫn có thể bấm Lưu để cập nhật lại điểm.` });
       else
         setMsg({
           type: 'success',
-          text: `Đã xử lý xong ${Object.keys(changedPartials).length}/5 file vừa chọn (các file còn lại dùng dữ liệu đã lưu trước đó). Kiểm tra bảng xem trước rồi bấm "Lưu vào bảng xếp hạng".`,
+          text: `${deltaInfo} Đã xử lý xong ${Object.keys(changedPartials).length}/5 file vừa chọn (các file còn lại dùng dữ liệu đã lưu trước đó). Kiểm tra bảng xem trước rồi bấm "Lưu vào bảng xếp hạng".`,
         });
     } catch (err) {
       console.error(err);
@@ -441,6 +467,15 @@ export default function Admin() {
 
                 {pendingData && (
                   <div style={{ marginTop: 18 }}>
+                    {pendingData.prevMonthLabel ? (
+                      <div className="msg neutral" style={{ fontSize: 12, marginBottom: 12 }}>
+                        ⚡ <strong>Chế độ tính phát sinh (Delta):</strong> Lead giao, Lead chuyển đổi và Opp thành công được tính bằng cách lấy lũy kế kỳ này trừ lũy kế <strong>{pendingData.prevMonthLabel}</strong>.
+                      </div>
+                    ) : (
+                      <div className="msg neutral" style={{ fontSize: 12, marginBottom: 12 }}>
+                        📌 <strong>Kỳ đầu tiên:</strong> Số liệu phát sinh được tính trực tiếp từ file tải lên.
+                      </div>
+                    )}
                     <div className="actions-row" style={{ marginBottom: 4 }}>
                       <button
                         type="button"
