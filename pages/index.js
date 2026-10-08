@@ -41,7 +41,7 @@ async function exportXlsx(rows, kind, monthLabel, cdsOnly) {
   const tieuDe =
     (isPhong ? 'XẾP HẠNG THEO PHÒNG / PGD' : 'XẾP HẠNG THEO CÁN BỘ (RM)') + (cdsOnly ? ' — CHỈ SÁNG KIẾN CĐS' : '');
   const aoa = [
-    ['VIETINBANK — CHI NHÁNH BẮC NGHỆ AN'],
+    ['VIETINBANK — CHI NHÁNH BẮC THANH HÓA'],
     ['Bảng điểm thi đua CRM 1.0 Transformation 2026 — ' + tieuDe],
     ['Kỳ xét thưởng: ' + (monthLabel || '—')],
     [],
